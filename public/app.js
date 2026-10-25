@@ -32,6 +32,7 @@
     $$(".screen").forEach((s) => s.classList.toggle("is-active", s.id === id));
     document.body.classList.toggle("in-quiz", id === "screen-quiz");
     window.scrollTo(0, 0);
+    requestAnimationFrame(fitAll);
   }
 
   /* ---------- тост и модальное окно ---------- */
@@ -80,6 +81,24 @@
     };
     requestAnimationFrame(step);
   }
+  // Уменьшает шрифт, пока самое длинное слово не поместится в ширину блока (слова не разрываются)
+  function shrinkToFit(el, minPx = 14) {
+    if (!el || !el.offsetParent) return;
+    el.style.fontSize = "";
+    let fs = parseFloat(getComputedStyle(el).fontSize);
+    for (let i = 0; i < 40 && el.scrollWidth > el.clientWidth + 1 && fs > minPx; i++) {
+      fs *= 0.95;
+      el.style.fontSize = fs.toFixed(1) + "px";
+    }
+  }
+  function fitAll() {
+    ["#intro-title", "#q-text", "#r-title", "#admin-title"].forEach((s) => shrinkToFit($(s)));
+  }
+  let fitTimer;
+  addEventListener("resize", () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitAll, 120); });
+  if (document.fonts) { document.fonts.ready.then(fitAll); document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", fitAll); }
+  addEventListener("load", fitAll);
+
   function setHeat(v) { document.documentElement.style.setProperty("--heat", v.toFixed(3)); }
 
   /* =====================================================================
@@ -162,6 +181,7 @@
       b.addEventListener("click", (e) => choose(o.id, e));
       box.appendChild(b);
     });
+    shrinkToFit($("#q-text"));
     $("#prev-btn").disabled = S.current === 0;
     $("#next-btn").hidden = S.current === S.questions.length - 1;
     updateDots();

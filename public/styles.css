@@ -85,8 +85,8 @@ body.panic .timer { animation: shake 0.5s linear infinite; }
 /* ---------- вход ---------- */
 #screen-intro { align-items: center; justify-content: center; }
 .intro { width: min(1080px, 100%); display: flex; flex-direction: column; gap: 28px; }
-.mega { margin: 0; font-family: var(--head); font-weight: 900; font-size: clamp(36px, 8.4vw, 118px); line-height: 0.98; letter-spacing: -0.02em; }
-.mega .line { display: block; opacity: 0; transform: translateY(40px); filter: blur(10px); animation: rise 0.9s cubic-bezier(.2, .8, .2, 1) forwards; overflow-wrap: anywhere; }
+.mega { margin: 0; font-family: var(--head); font-weight: 900; font-size: min(88px, calc((100vw - 2 * clamp(20px, 4vw, 56px)) / 12.8)); line-height: 1.02; letter-spacing: -0.01em; }
+.mega .line { display: block; opacity: 0; transform: translateY(40px); filter: blur(10px); animation: rise 0.9s cubic-bezier(.2, .8, .2, 1) forwards; white-space: nowrap; width: max-content; }
 .mega .line:nth-child(2) { animation-delay: 0.12s; }
 .mega .line:nth-child(3) { animation-delay: 0.24s; }
 @keyframes rise { to { opacity: 1; transform: none; filter: none; } }
@@ -170,7 +170,7 @@ body.panic .timer { animation: shake 0.5s linear infinite; }
 .q-card.swap-back { animation: swapBack 0.45s cubic-bezier(.2, .8, .2, 1); }
 @keyframes swapBack { from { opacity: 0; transform: translateX(-40px) rotate(-1deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 .q-num { margin: 0 0 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 14px; color: var(--o); }
-.q-text { margin: 0 0 26px; font-family: var(--head); font-weight: 700; font-size: clamp(21px, 2.9vw, 34px); line-height: 1.28; overflow-wrap: anywhere; }
+.q-text { margin: 0 0 26px; font-family: var(--head); font-weight: 700; font-size: clamp(19px, 2.6vw, 32px); line-height: 1.3; overflow-wrap: normal; word-break: normal; hyphens: none; }
 .options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .opt {
   position: relative; display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 14px 18px; text-align: left;
@@ -194,7 +194,7 @@ body.panic .timer { animation: shake 0.5s linear infinite; }
 .result { width: min(780px, 100%); padding: clamp(26px, 5vw, 52px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .r-emoji { margin: 0; font-size: 64px; line-height: 1; animation: bounce 1.6s ease-in-out infinite; }
 @keyframes bounce { 50% { transform: translateY(-10px) rotate(-6deg); } }
-.r-title { margin: 0; font-family: var(--head); font-weight: 900; font-size: clamp(32px, 6vw, 64px); line-height: 1.05; overflow-wrap: anywhere; }
+.r-title { margin: 0; font-family: var(--head); font-weight: 900; font-size: clamp(26px, 5.4vw, 60px); line-height: 1.08; overflow-wrap: normal; word-break: normal; hyphens: none; }
 .r-sub { margin: 0; color: var(--muted); font-size: 19px; max-width: 560px; }
 .grade-orb { position: relative; width: 220px; height: 220px; margin: 12px 0; }
 .grade-orb svg { width: 100%; height: 100%; transform: rotate(-90deg); }
