@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тест · Инновационная инфраструктура Беларуси</title>
+<meta name="description" content="Тест по докладу «Инновационная инфраструктура Республики Беларусь»: 20 вопросов, 7 минут.">
+<meta name="theme-color" content="#0B1226">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23FFD23F'/%3E%3Cpath d='M20 33l8 8 16-18' stroke='%230B1226' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800;900&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<!-- фон -->
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div id="danger" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main id="app">
+
+  <!-- 1. Вход -->
+  <section id="screen-intro" class="screen is-active" aria-labelledby="intro-title">
+    <div class="intro">
+      <p class="eyebrow"><span class="dot"></span> Тест по докладу</p>
+      <h1 id="intro-title" class="mega">
+        <span class="line">Инновационная</span>
+        <span class="line">инфраструктура</span>
+        <span class="line grad">Беларуси</span>
+      </h1>
+      <div class="chips">
+        <span class="chip c1"><b>20</b> вопросов</span>
+        <span class="chip c2"><b>7</b> минут</span>
+        <span class="chip c3">оценка <b>0–10</b></span>
+      </div>
+
+      <form id="start-form" class="glass start-card" autocomplete="off" novalidate>
+        <label class="field">
+          <input id="name" name="name" type="text" maxlength="60" placeholder=" " required>
+          <span>Ваше имя и фамилия</span>
+        </label>
+        <button class="btn btn-hot" type="submit" id="start-btn">
+          <span>Начать тест</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="hint">Таймер стартует сразу после нажатия. Если обновить страницу, время не остановится — тест продолжится с того же места.</p>
+        <p class="form-error" id="start-error" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. Тест -->
+  <section id="screen-quiz" class="screen" aria-label="Прохождение теста">
+    <header class="quiz-top">
+      <div class="who">
+        <p class="who-name" id="q-name"></p>
+        <p class="who-count"><span id="q-answered">0</span> из <span id="q-total">20</span> отвечено</p>
+      </div>
+      <div class="timer" id="timer" role="timer" aria-live="off">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="t-bg" cx="60" cy="60" r="52"/>
+          <circle class="t-fg" id="timer-ring" cx="60" cy="60" r="52"/>
+        </svg>
+        <div class="t-text"><span id="timer-text">7:00</span><small>осталось</small></div>
+      </div>
+    </header>
+
+    <nav class="dots" id="dots" aria-label="Навигация по вопросам"></nav>
+
+    <p class="pace" id="pace" hidden>⚡ Вы отстаёте от темпа — поторопитесь!</p>
+
+    <article class="glass q-card" id="q-card">
+      <p class="q-num" id="q-num">Вопрос 1</p>
+      <h2 class="q-text" id="q-text"></h2>
+      <div class="options" id="options" role="radiogroup"></div>
+    </article>
+
+    <footer class="quiz-nav">
+      <button class="btn btn-ghost" id="prev-btn" type="button">← Назад</button>
+      <button class="btn btn-ghost" id="next-btn" type="button">Далее →</button>
+      <button class="btn btn-hot" id="finish-btn" type="button">Завершить тест</button>
+    </footer>
+  </section>
+
+  <!-- 3. Результат -->
+  <section id="screen-result" class="screen" aria-live="polite">
+    <div class="result glass" id="result-card">
+      <p class="r-emoji" id="r-emoji"></p>
+      <h2 class="r-title" id="r-title"></h2>
+      <p class="r-sub" id="r-sub"></p>
+
+      <div class="grade-orb" id="grade-orb">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="gradeGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#FFD23F"/><stop offset="0.5" stop-color="#FF9F68"/><stop offset="1" stop-color="#FF5E8A"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="86" class="o-bg"/>
+          <circle cx="100" cy="100" r="86" class="o-fg" id="orb-ring"/>
+        </svg>
+        <div class="orb-text"><b id="r-grade">0</b><span>из 10</span></div>
+      </div>
+
+      <div class="timeout-banner" id="timeout-banner" hidden>
+        <b>⏰ Время вышло!</b>
+        <span>Успели ответить: <b id="r-done">0</b> · не успели: <b id="r-left">0</b></span>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><b id="r-correct">0</b><span>правильных из <i id="r-total">20</i></span></div>
+        <div class="stat"><b id="r-percent">0%</b><span>правильных ответов</span></div>
+        <div class="stat"><b id="r-time">0:00</b><span>затрачено времени</span></div>
+      </div>
+
+      <button class="btn btn-ghost" id="home-btn" type="button">На главную</button>
+    </div>
+  </section>
+
+  <!-- 4. Админ-панель -->
+  <section id="screen-admin" class="screen" aria-labelledby="admin-title">
+    <div class="admin">
+      <header class="admin-head">
+        <div>
+          <p class="eyebrow"><span class="dot"></span> Панель администратора</p>
+          <h2 id="admin-title" class="admin-title">Результаты теста</h2>
+        </div>
+        <div class="admin-actions">
+          <button class="btn btn-ghost sm" id="refresh-btn" type="button">↻ Обновить</button>
+          <button class="btn btn-ghost sm" id="csv-btn" type="button">⬇ Скачать CSV</button>
+          <button class="btn btn-danger sm" id="clear-btn" type="button">🗑 Очистить историю</button>
+          <button class="btn btn-ghost sm" id="logout-btn" type="button">Выйти</button>
+        </div>
+      </header>
+
+      <div class="kpis" id="kpis"></div>
+
+      <div class="admin-grid">
+        <div class="glass panel">
+          <h3>Распределение оценок</h3>
+          <div class="hist" id="hist"></div>
+        </div>
+        <div class="glass panel">
+          <h3>Самые сложные вопросы</h3>
+          <ol class="hard" id="hard"></ol>
+        </div>
+      </div>
+
+      <div class="glass panel table-panel">
+        <div class="table-tools">
+          <h3>Все попытки</h3>
+          <input id="search" type="search" placeholder="Поиск по имени…" aria-label="Поиск по имени">
+        </div>
+        <div class="table-wrap">
+          <table class="results">
+            <thead>
+              <tr>
+                <th data-sort="name">Имя</th>
+                <th data-sort="correct">Правильных</th>
+                <th data-sort="percent">%</th>
+                <th data-sort="grade">Оценка</th>
+                <th data-sort="answered">Отвечено</th>
+                <th data-sort="durationSec">Время</th>
+                <th data-sort="status">Статус</th>
+                <th data-sort="startedAt">Дата</th>
+                <th aria-label="Удалить"></th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <p class="empty" id="empty" hidden>Пока никто не прошёл тест.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<button id="admin-btn" class="admin-btn" type="button" aria-label="Вход для администратора" title="Для администратора">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-box glass" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 id="modal-title"></h3>
+    <div id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/fx.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
